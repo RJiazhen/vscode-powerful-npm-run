@@ -19,6 +19,7 @@
     ".vscode",
     "README.md",
     "stores",
-    ".github"
+    ".github",
+    "workflows"
   ]
 }
