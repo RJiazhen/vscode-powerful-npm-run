@@ -25,11 +25,11 @@
     "commands": [
       {
         "command": "rjz-npm-run.runNpmScriptCurrentTerminal",
-        "title": "Run NPM Script From /package.json (Last Used Terminal)"
+        "title": "npm run (Last Used Terminal)"
       },
       {
         "command": "rjz-npm-run.runNpmScriptNewTerminal",
-        "title": "Run NPM Script From /package.json (New Terminal)"
+        "title": "npm run (New Terminal)"
       }
     ]
   },
