@@ -34,7 +34,7 @@ async function openScriptInTerminal(
       terminal.sendText(`nvm use ${nvmrcVersion}`);
     }
 
-    const npmCommand = `npm run ${selectedNpmScript.label}`;
+    const npmCommand = `npm run ${selectedNpmScript.name}`;
     terminal.sendText(npmCommand);
   } else {
     vscode.window.showInformationMessage("No active terminal. Exiting...");
