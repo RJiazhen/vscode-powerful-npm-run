@@ -31,7 +31,17 @@
         "command": "rjz-npm-run.runNpmScriptNewTerminal",
         "title": "npm run (New Terminal)"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Powerful NPM Run",
+      "properties": {
+        "powerful-npm-run.defaultNodeVersion": {
+          "type": "string",
+          "default": "",
+          "description": "The default node version used. Example: 16.14.0"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
