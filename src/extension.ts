@@ -32,6 +32,14 @@ async function openScriptInTerminal(
         .trim()
         .replace("v", "");
       terminal.sendText(`nvm use ${nvmrcVersion}`);
+    } else {
+      const defaultNodeVersion = vscode.workspace
+        .getConfiguration("powerful-npm-run")
+        .get("defaultNodeVersion");
+
+      if (defaultNodeVersion) {
+        terminal.sendText(`nvm use ${defaultNodeVersion}`);
+      }
     }
 
     const npmCommand = `npm run ${selectedNpmScript.name}`;
