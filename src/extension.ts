@@ -6,6 +6,7 @@ import {
   watchPackageJsonChanges,
 } from "./stores/npm-scripts-store";
 import { checkIsNvmrcExit } from "./utils/checkIsNvmrcExit";
+import { npmInstall } from "./features/npm-install";
 
 async function openScriptInTerminal(
   terminal: vscode.Terminal | undefined,
@@ -93,6 +94,8 @@ async function readNpmScriptsMain(openNewTerminal: boolean): Promise<void> {
 
 export async function activate(context: vscode.ExtensionContext) {
   initPackageJsonScriptsList();
+
+  npmInstall(context);
 
   context.subscriptions.push(watchPackageJsonChanges());
 
