@@ -10,9 +10,12 @@
  * @param wait - wait time in milliseconds, default is 300ms
  * @return debounced function
  */
-export function debounce(func: Function, wait: number = 300) {
+export function debounce<T extends (...args: any[]) => any>(
+  func: T,
+  wait: number = 300,
+) {
   let timeout: any;
-  return function (...args: any[]) {
+  return function (...args: Parameters<T>): ReturnType<T> | void {
     clearTimeout(timeout);
     timeout = setTimeout(() => {
       // @ts-ignore
