@@ -71,7 +71,7 @@ export const checkAndUpdatePackageJsonScriptsList = async function (e: any) {
 /**
  * init package.json scripts list
  */
-export const initPackageJsonScriptsList = debounce(async function (e: any) {
+export const initPackageJsonScriptsList = debounce(async function (e?: any) {
   allNpmScriptPromise =
     allNpmScriptPromise ||
     new Promise((resolve) => {
