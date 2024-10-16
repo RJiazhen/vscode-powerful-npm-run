@@ -18,6 +18,7 @@
   "activationEvents": [
     "onCommand:rjz-npm-run.runNpmScriptCurrentTerminal",
     "onCommand:rjz-npm-run.runNpmScriptNewTerminal",
+    "onCommand:rjz-npm-run.npmInstall",
     "onStartupFinished"
   ],
   "main": "./dist/extension.js",
@@ -30,6 +31,10 @@
       {
         "command": "rjz-npm-run.runNpmScriptNewTerminal",
         "title": "npm run (New Terminal)"
+      },
+      {
+        "command": "rjz-npm-run.npmInstall",
+        "title": "npm install"
       }
     ],
     "configuration": {
