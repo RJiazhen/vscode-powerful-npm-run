@@ -1,5 +1,5 @@
 import { commands, ExtensionContext } from "vscode";
-import { npmInstall } from "./features/npm-install";
+import { registerNpmInstall } from "./features/npm-install";
 import { readNpmScriptsMain } from "./features/npm-run";
 import {
   initPackageJsonScriptsList,
@@ -9,7 +9,7 @@ import {
 export const activate = (context: ExtensionContext) => {
   initPackageJsonScriptsList();
 
-  npmInstall(context);
+  registerNpmInstall(context);
 
   context.subscriptions.push(watchPackageJsonChanges());
 

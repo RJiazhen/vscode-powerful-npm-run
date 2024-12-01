@@ -1,5 +1,5 @@
 import { commands, ExtensionContext, workspace } from "vscode";
-import { quickPick } from "./quick-pick";
+import { npmInstallQuickPick } from "./quick-pick";
 import { watchFiles } from "./watch-files";
 import { getNvmVersion } from "../../utils/get-nvm-version";
 import { sendTextToTerminal } from "../../utils/send-text-to-terminal";
@@ -10,13 +10,13 @@ const quickPickOnDidChangeSelection = async (
   const selectedItem = quickPickItemList[0];
 
   if (!selectedItem.file) {
-    quickPick.hide();
+    npmInstallQuickPick.hide();
     return;
   }
 
   const lastBackslashIndex = selectedItem.file.fsPath.lastIndexOf("\\");
   if (lastBackslashIndex === -1) {
-    quickPick.hide();
+    npmInstallQuickPick.hide();
     return;
   }
   const workDir =
@@ -34,7 +34,7 @@ const quickPickOnDidChangeSelection = async (
 
   sendTextToTerminal(commandList);
 
-  quickPick.hide();
+  npmInstallQuickPick.hide();
 };
 
 const updateInstallFillPathsCallBack = (
@@ -54,22 +54,22 @@ const updateInstallFillPathsCallBack = (
     };
   });
 
-  quickPick.items = newQuickPickItemList;
+  npmInstallQuickPick.items = newQuickPickItemList;
 };
 
 /**
  * Register the npm install command
  * @param context The extension context
  */
-export const npmInstall = (context: ExtensionContext) => {
-  quickPick.onDidChangeSelection(quickPickOnDidChangeSelection);
+export const registerNpmInstall = (context: ExtensionContext) => {
+  npmInstallQuickPick.onDidChangeSelection(quickPickOnDidChangeSelection);
   watchFiles(updateInstallFillPathsCallBack);
 
   const npmInstallCommand = commands.registerCommand(
     "rjz-npm-run.npmInstall",
     () => {
-      quickPick.show();
-      quickPick.items = quickPick.items;
+      npmInstallQuickPick.show();
+      npmInstallQuickPick.items = npmInstallQuickPick.items;
     },
   );
 
