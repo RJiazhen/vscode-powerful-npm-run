@@ -6,7 +6,7 @@ import {
   watchPackageJsonChanges,
 } from "./stores/npm-scripts-store";
 
-export async function activate(context: ExtensionContext) {
+export const activate = (context: ExtensionContext) => {
   initPackageJsonScriptsList();
 
   npmInstall(context);
@@ -24,6 +24,4 @@ export async function activate(context: ExtensionContext) {
     () => readNpmScriptsMain(true),
   );
   context.subscriptions.push(runNpmScriptNewTerminal);
-}
-
-export function deactivate() {}
+};
