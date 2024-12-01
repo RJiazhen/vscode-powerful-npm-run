@@ -20,6 +20,9 @@
     "README.md",
     "stores",
     ".github",
-    "workflows"
+    "workflows",
+    "extension.ts",
+    "npm-install",
+    "npm-run"
   ]
 }
