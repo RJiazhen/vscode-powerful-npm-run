@@ -38,27 +38,55 @@ const updateInstallFilePaths = debounce(
       "**/node_modules/**",
     );
 
-    const commandFileTypeMap = {
-      "package.json": "npm install",
-      "package-lock.json": "npm ci",
-      "yarn.lock": "yarn install",
-      "pnpm-lock.yaml": "pnpm install",
-    };
+    const installFileInfoList = [
+      {
+        fileName: "pnpm-lock.yaml",
+        command: "pnpm install",
+      },
+      {
+        fileName: "yarn.lock",
+        command: "yarn install",
+      },
+      {
+        fileName: "package-lock.json",
+        command: "npm ci",
+      },
+      {
+        fileName: "package.json",
+        command: "npm install",
+      },
+    ];
 
-    const installCommandList = installFiles.map((file) => {
-      const fileName = file.fsPath.split("\\")?.pop();
+    const installCommandList = installFiles
+      .map((file) => {
+        const fileName = file.fsPath.split("\\")?.pop();
 
-      if (!fileName || !Object.keys(commandFileTypeMap).includes(fileName)) {
-        return undefined;
-      }
+        const targetInstallInfo = installFileInfoList.find(
+          (item) => item.fileName === fileName,
+        );
 
-      const command =
-        commandFileTypeMap[fileName as keyof typeof commandFileTypeMap];
-      return {
-        command,
-        file,
-      };
-    });
+        return {
+          command: targetInstallInfo?.command,
+          file,
+        };
+      })
+      .toSorted((a, b) => {
+        const directoryA = a.file.fsPath.split("\\")?.slice(0, -1).join("\\");
+        const directoryB = b.file.fsPath.split("\\")?.slice(0, -1).join("\\");
+        if (directoryA !== directoryB) {
+          return 0;
+        }
+
+        // if same directory, sort by the order of installFileInfoList
+        const aTargetFIleInfoIndex = installFileInfoList.findIndex(
+          (item) => item.fileName === a.file.fsPath.split("\\")?.pop(),
+        );
+        const bTargetFIleInfoIndex = installFileInfoList.findIndex(
+          (item) => item.fileName === b.file.fsPath.split("\\")?.pop(),
+        );
+
+        return aTargetFIleInfoIndex - bTargetFIleInfoIndex;
+      });
 
     updateInstallFillPathsCallBack?.(installCommandList);
   },
