@@ -57,6 +57,10 @@ const updateInstallFillPathsCallBack = (
   quickPick.items = newQuickPickItemList;
 };
 
+/**
+ * Register the npm install command
+ * @param context The extension context
+ */
 export const npmInstall = (context: ExtensionContext) => {
   quickPick.onDidChangeSelection(quickPickOnDidChangeSelection);
   watchFiles(updateInstallFillPathsCallBack);
