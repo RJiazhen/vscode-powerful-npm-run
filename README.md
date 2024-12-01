@@ -24,6 +24,14 @@ Quickly execute `npm install`, `npm ci`, `pnpm install`, `yarn install` commands
 
 - `npm install`: Displays all available `npm install`, `npm ci`, `pnpm install`, `yarn install` commands and executes them in the last used terminal.
 
+## Configuration
+
+- `Default Node Version`: Set the default node version.
+  When there is no `.nvmrc` file, the default node version will be used.
+
+- `Single Line Command`: Single line command mode.
+  Merge the operations of switching directories, switching node versions, and executing npm scripts into a single line command. Recommended for Windows users to use a non-cmd terminal as the default terminal and set this option to `always use ;`.
+
 ## Roadmap
 
 - [x] Configure default node version
