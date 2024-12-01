@@ -1,5 +1,5 @@
 import { Terminal, window, workspace } from "vscode";
-import { checkIsNvmrcExit } from "../../utils/checkIsNvmrcExit";
+import { checkIsNvmrcExit } from "../../utils/check-is-nvmrc-exit";
 
 /**
  * Opens a terminal and runs the selected npm script in it.
