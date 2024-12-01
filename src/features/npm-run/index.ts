@@ -41,7 +41,7 @@ export const readNpmScriptsMain = async (isRunInNewTerminal: boolean) => {
 
   const terminal = isRunInNewTerminal
     ? window.createTerminal()
-    : window.activeTerminal;
+    : window.activeTerminal || window.createTerminal();
 
   openScriptInTerminal(terminal, selectedNpmScript);
 };

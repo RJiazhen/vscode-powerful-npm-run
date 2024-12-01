@@ -7,43 +7,39 @@ import { checkIsNvmrcExit } from "../../utils/checkIsNvmrcExit";
  * @param selectedNpmScript The npm script to run.
  */
 export const openScriptInTerminal = async (
-  terminal: Terminal | undefined,
+  terminal: Terminal,
   selectedNpmScript: NpmScriptQuickPickItem,
 ) => {
-  if (terminal) {
-    terminal.show();
-    const workPath = selectedNpmScript.packageJsonPath.replace(
+  terminal.show();
+  const workPath = selectedNpmScript.packageJsonPath.replace(
+    "package.json",
+    "",
+  );
+  terminal.sendText(`cd ${workPath}`);
+
+  const isNvmrcExit = checkIsNvmrcExit(
+    selectedNpmScript.packageJsonPath.replace("package.json", ""),
+  );
+  if (isNvmrcExit) {
+    const nvmrcPath = selectedNpmScript.packageJsonPath.replace(
       "package.json",
-      "",
+      ".nvmrc",
     );
-    terminal.sendText(`cd ${workPath}`);
-
-    const isNvmrcExit = checkIsNvmrcExit(
-      selectedNpmScript.packageJsonPath.replace("package.json", ""),
-    );
-    if (isNvmrcExit) {
-      const nvmrcPath = selectedNpmScript.packageJsonPath.replace(
-        "package.json",
-        ".nvmrc",
-      );
-      const nvmrcVersion = (await workspace.openTextDocument(nvmrcPath))
-        .getText()
-        .trim()
-        .replace("v", "");
-      terminal.sendText(`nvm use ${nvmrcVersion}`);
-    } else {
-      const defaultNodeVersion = workspace
-        .getConfiguration("powerful-npm-run")
-        .get("defaultNodeVersion");
-
-      if (defaultNodeVersion) {
-        terminal.sendText(`nvm use ${defaultNodeVersion}`);
-      }
-    }
-
-    const npmCommand = `npm run ${selectedNpmScript.name}`;
-    terminal.sendText(npmCommand);
+    const nvmrcVersion = (await workspace.openTextDocument(nvmrcPath))
+      .getText()
+      .trim()
+      .replace("v", "");
+    terminal.sendText(`nvm use ${nvmrcVersion}`);
   } else {
-    window.showInformationMessage("No active terminal. Exiting...");
+    const defaultNodeVersion = workspace
+      .getConfiguration("powerful-npm-run")
+      .get("defaultNodeVersion");
+
+    if (defaultNodeVersion) {
+      terminal.sendText(`nvm use ${defaultNodeVersion}`);
+    }
   }
+
+  const npmCommand = `npm run ${selectedNpmScript.name}`;
+  terminal.sendText(npmCommand);
 };
