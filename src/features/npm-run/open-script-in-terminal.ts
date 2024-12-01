@@ -1,5 +1,8 @@
 import { Terminal, window, workspace } from "vscode";
 import { checkIsNvmrcExit } from "../../utils/check-is-nvmrc-exit";
+import { getVersionInNvmrc } from "../../utils/get-version-in-nvmrc";
+import { getPowerfulNpmRunConfiguration } from "../../utils/get-powerful-npm-run-configuration";
+import { ConfigurationSection } from "../../constants/enums/configuration";
 
 /**
  * Opens a terminal and runs the selected npm script in it.
@@ -20,25 +23,14 @@ export const openScriptInTerminal = async (
   const isNvmrcExit = checkIsNvmrcExit(
     selectedNpmScript.packageJsonPath.replace("package.json", ""),
   );
-  if (isNvmrcExit) {
-    const nvmrcPath = selectedNpmScript.packageJsonPath.replace(
-      "package.json",
-      ".nvmrc",
-    );
-    const nvmrcVersion = (await workspace.openTextDocument(nvmrcPath))
-      .getText()
-      .trim()
-      .replace("v", "");
-    terminal.sendText(`nvm use ${nvmrcVersion}`);
-  } else {
-    const defaultNodeVersion = workspace
-      .getConfiguration("powerful-npm-run")
-      .get("defaultNodeVersion");
 
-    if (defaultNodeVersion) {
-      terminal.sendText(`nvm use ${defaultNodeVersion}`);
-    }
-  }
+  const nvmrcVersion = isNvmrcExit
+    ? await getVersionInNvmrc(
+        selectedNpmScript.packageJsonPath.replace("package.json", ".nvmrc"),
+      )
+    : getPowerfulNpmRunConfiguration(ConfigurationSection.defaultNodeVersion);
+
+  terminal.sendText(`nvm use ${nvmrcVersion}`);
 
   const npmCommand = `npm run ${selectedNpmScript.name}`;
   terminal.sendText(npmCommand);
