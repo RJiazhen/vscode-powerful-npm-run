@@ -1,5 +1,8 @@
 import { Terminal, window } from "vscode";
-import { ConfigurationSection } from "../../constants/enums/configuration";
+import {
+  ConfigurationSection,
+  SingleLineCommandOption,
+} from "../../constants/enums/configuration";
 import { checkIsNvmrcExit } from "../../utils/check-is-nvmrc-exit";
 import { getPowerfulNpmRunConfiguration } from "../../utils/get-powerful-npm-run-configuration";
 import { getVersionInNvmrc } from "../../utils/get-version-in-nvmrc";
@@ -31,14 +34,36 @@ export const openScriptInTerminal = async (
     `npm run ${selectedNpmScript.name}`,
   ];
 
+  const singleLineCommandOption = getPowerfulNpmRunConfiguration(
+    ConfigurationSection.singleLineCommand,
+  );
+
   if (terminal) {
     terminal.show();
-    terminal.sendText(terminalTextList.join("\n"));
+    const lastTerminalSeparatorMap = {
+      [SingleLineCommandOption.onlyInNewTerminal]: "\n",
+      [SingleLineCommandOption.off]: "\n",
+      [SingleLineCommandOption.alwaysUseAnd]: "&&",
+      [SingleLineCommandOption.alwaysUseSemicolon]: ";",
+    };
+    terminal.sendText(
+      terminalTextList.join(lastTerminalSeparatorMap[singleLineCommandOption]),
+    );
     return;
   }
 
-  const separator = isDefaultTerminalTypeCmd() ? "&&" : ";";
+  const newTerminalSeparatorMap = {
+    [SingleLineCommandOption.onlyInNewTerminal]: isDefaultTerminalTypeCmd()
+      ? "&&"
+      : ";",
+    [SingleLineCommandOption.off]: "\n",
+    [SingleLineCommandOption.alwaysUseAnd]: "&&",
+    [SingleLineCommandOption.alwaysUseSemicolon]: ";",
+  };
+
   const newTerminal = window.createTerminal();
   newTerminal.show();
-  newTerminal.sendText(terminalTextList.join(separator));
+  newTerminal.sendText(
+    terminalTextList.join(newTerminalSeparatorMap[singleLineCommandOption]),
+  );
 };

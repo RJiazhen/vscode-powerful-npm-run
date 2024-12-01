@@ -44,6 +44,17 @@
           "type": "string",
           "default": "",
           "description": "The default node version used. Example: 16.14.0"
+        },
+        "powerful-npm-run.singleLineCommand": {
+          "type": "string",
+          "enum": [
+            "only in new terminal",
+            "off",
+            "always use ;",
+            "always use &&"
+          ],
+          "default": "only in new terminal",
+          "description": "Whether to run the command in a single line when run in active terminal."
         }
       }
     }
