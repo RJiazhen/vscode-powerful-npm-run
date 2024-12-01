@@ -1,26 +1,13 @@
 import { window } from "vscode";
 
-export const quickPick = window.createQuickPick<NpmInstallQuickPickItem>();
+export const npmInstallQuickPick =
+  window.createQuickPick<NpmInstallQuickPickItem>();
 
-quickPick.items = [
+npmInstallQuickPick.items = [
   {
     label: "Loading install commands...",
     description: "Please wait...",
   },
 ];
 
-quickPick.placeholder = "Select an npm install command to run";
-
-export const onQuickPickSelected = (
-  onDidSelect: (item: NpmInstallQuickPickItem) => void,
-): void => {
-  quickPick.onDidChangeSelection((items) => {
-    onDidSelect(items[0]);
-  });
-};
-
-export const updateQuickPickItems = (
-  items: NpmInstallQuickPickItem[],
-): void => {
-  quickPick.items = items;
-};
+npmInstallQuickPick.placeholder = "Select an npm install command to run";
