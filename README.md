@@ -6,7 +6,7 @@
 
 Quickly execute `npm run` and switch node versions through the command panel.
 
-<img src="docs/images/npm-run-demo.webp" alt="demo">
+<img src="https://github.com/RJiazhen/vscode-powerful-npm-run/raw/refs/heads/main/docs/images/npm-run-demo.webp" alt="demo">
 
 - Support detection of npm scripts in subdirectory
 - Automatically switch node versions according to the `.nvmrc` file in the same directory
@@ -14,7 +14,7 @@ Quickly execute `npm run` and switch node versions through the command panel.
 
 Quickly execute `npm install`, `npm ci`, `pnpm install`, `yarn install` commands.
 
-<img src="docs/images/npm-install-demo.webp" alt="npm-install-demo">
+<img src="https://github.com/RJiazhen/vscode-powerful-npm-run/raw/refs/heads/main/docs/images/npm-install-demo.webp" alt="npm-install-demo">
 
 ## Commands
 
