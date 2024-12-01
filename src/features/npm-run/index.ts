@@ -39,9 +39,8 @@ export const readNpmScriptsMain = async (isRunInNewTerminal: boolean) => {
   }
   setQuickPickItemToFirst(selectedNpmScript);
 
-  const terminal = isRunInNewTerminal
-    ? window.createTerminal()
-    : window.activeTerminal || window.createTerminal();
-
-  openScriptInTerminal(terminal, selectedNpmScript);
+  openScriptInTerminal(
+    selectedNpmScript,
+    isRunInNewTerminal ? undefined : window.activeTerminal,
+  );
 };
