@@ -1,8 +1,9 @@
-import { commands, ExtensionContext, workspace } from "vscode";
+import { commands, ExtensionContext, window, workspace } from "vscode";
 import { npmInstallQuickPick } from "./quick-pick";
 import { watchFiles } from "./watch-files";
 import { getNvmVersion } from "../../utils/get-nvm-version";
 import { sendTextToTerminal } from "../../utils/send-text-to-terminal";
+import { sendTextInSingleLine } from "../../utils/send-text-in-single-line";
 
 const quickPickOnDidChangeSelection = async (
   quickPickItemList: readonly NpmInstallQuickPickItem[],
@@ -32,7 +33,10 @@ const quickPickOnDidChangeSelection = async (
     selectedItem.command || "",
   ];
 
-  sendTextToTerminal(commandList);
+  sendTextInSingleLine({
+    textList: commandList,
+    terminal: window.activeTerminal,
+  });
 
   npmInstallQuickPick.hide();
 };
