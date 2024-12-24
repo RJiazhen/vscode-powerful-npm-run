@@ -6,7 +6,7 @@
 
 Quickly execute `npm run` and switch node versions through the command panel.
 
-<img src="https://github.com/RJiazhen/vscode-powerful-npm-run/raw/refs/heads/main/docs/images/npm-run-demo.webp" alt="demo">
+<img src="https://github.com/RJiazhen/vscode-powerful-npm-run/raw/refs/heads/main/docs/images/npm-run-demo.gif" alt="demo">
 
 - Support detection of npm scripts in subdirectory
 - Automatically switch node versions according to the `.nvmrc` file in the same directory
@@ -14,7 +14,7 @@ Quickly execute `npm run` and switch node versions through the command panel.
 
 Quickly execute `npm install`, `npm ci`, `pnpm install`, `yarn install` commands.
 
-<img src="https://github.com/RJiazhen/vscode-powerful-npm-run/raw/refs/heads/main/docs/images/npm-install-demo.webp" alt="npm-install-demo">
+<img src="https://github.com/RJiazhen/vscode-powerful-npm-run/raw/refs/heads/main/docs/images/npm-install-demo.gif" alt="npm-install-demo">
 
 ## Commands
 
@@ -30,12 +30,13 @@ Quickly execute `npm install`, `npm ci`, `pnpm install`, `yarn install` commands
   When there is no `.nvmrc` file, the default node version will be used.
 
 - `Single Line Command`: Single line command mode.
-  Merge the operations of switching directories, switching node versions, and executing npm scripts into a single line command. Recommended for Windows users to use a non-cmd terminal as the default terminal and set this option to `always use ;`.
+  Merge the operations of switching directories, switching node versions, and executing npm scripts into a single line command. Recommended for Windows users to **use a non-cmd terminal as the default terminal** and **set this option to `always use;`**.
 
 ## Roadmap
 
 - [x] Configure default node version
 - [x] Support `npm install`,`pnpm install`,`yarn install` and other related commands
+- [x] Run all commands in one line
 - [ ] Remember the last command you used for each workspace directory
 - [ ] Support execution of npm scripts through tasks
 - [ ] Internationalization
