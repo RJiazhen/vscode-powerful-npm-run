@@ -12,6 +12,10 @@ interface GetNvmVersion {
   (targetDir: string): Promise<string>;
 }
 
+/**
+ * @description: get nvm version in target directory
+ * @param nvmrcPath nvmrc file path
+ */
 const getNodeVersionFromNvmrc = async (nvmrcPath: string) => {
   const nvmrcVersion = (await workspace.openTextDocument(nvmrcPath))
     .getText()
@@ -23,6 +27,7 @@ const getNodeVersionFromNvmrc = async (nvmrcPath: string) => {
 
 /**
  * @description: get node version from package.json's engines field
+ * @param packageJsonPath
  */
 const getNodeVersionFromPackageJsonEngines = async (
   packageJsonPath: string,
@@ -119,6 +124,9 @@ const getNodeVersionFromPackageJsonEngines = async (
   }
 };
 
+/**
+ * @description: get default node version from setting
+ */
 const getDefaultNodeVersion = async () => {
   const defaultNodeVersion = workspace
     .getConfiguration("powerful-npm-run")
@@ -127,6 +135,11 @@ const getDefaultNodeVersion = async () => {
   return defaultNodeVersion || "";
 };
 
+/**
+ * Get the node version from the nvmrc file in the target directory, package.json, or settings
+ * @param targetDir The target directory
+ * @returns The node version
+ */
 export const getNodeVersion: GetNvmVersion = async (targetDir) => {
   const targetDirStr =
     typeof targetDir === "string" ? targetDir : targetDir.fsPath;
