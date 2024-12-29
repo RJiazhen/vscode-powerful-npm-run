@@ -1,7 +1,7 @@
 import { commands, ExtensionContext, window, workspace } from "vscode";
 import { npmInstallQuickPick } from "./quick-pick";
 import { watchFiles } from "./watch-files";
-import { getNvmVersion } from "../../utils/get-nvm-version";
+import { getNodeVersion } from "../../utils/get-nvm-version";
 import { sendTextToTerminal } from "../../utils/send-text-to-terminal";
 import { sendTextInSingleLine } from "../../utils/send-text-in-single-line";
 
@@ -25,7 +25,7 @@ const quickPickOnDidChangeSelection = async (
       ? selectedItem.file.fsPath.slice(0, lastBackslashIndex + 1)
       : "";
 
-  const nvmVersion = await getNvmVersion(workDir);
+  const nvmVersion = await getNodeVersion(workDir);
 
   const commandList = [
     `cd "${workDir}"`,
