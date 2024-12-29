@@ -4,6 +4,7 @@ import { checkIsNvmrcExit } from "../../utils/check-is-nvmrc-exit";
 import { getPowerfulNpmRunConfiguration } from "../../utils/get-powerful-npm-run-configuration";
 import { getVersionInNvmrc } from "../../utils/get-version-in-nvmrc";
 import { sendTextInSingleLine } from "../../utils/send-text-in-single-line";
+import { getNodeVersion } from "../../utils/get-nvm-version";
 
 /**
  * Opens a terminal and runs the selected npm script in it.
@@ -19,11 +20,7 @@ export const openScriptInTerminal = async (
     "",
   );
 
-  const isNvmrcExit = checkIsNvmrcExit(workPath);
-
-  const nodeVersion = isNvmrcExit
-    ? await getVersionInNvmrc(workPath + ".nvmrc")
-    : getPowerfulNpmRunConfiguration(ConfigurationSection.defaultNodeVersion);
+  const nodeVersion = await getNodeVersion(workPath);
 
   const terminalTextList = [
     `cd ${workPath}`,
