@@ -6,7 +6,8 @@
     "test": "echo \"sub-222 package.json test script\" && exit 1",
     "tes2": "echo \"sub-2 package.json test script\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  "engines": {
+    "tipsAboutPowerfulNpmRun": "only '20.11.0' is valid, because it has the highest priority",
+    "node": "20.11.0 ^22.12.0 ~18.20.4 <=16.0.0 >=23.0.0"
+  }
 }

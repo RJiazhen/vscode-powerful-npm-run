@@ -5,6 +5,10 @@
   "scripts": {
     "test": "echo \"root package.json test script\" && exit 1"
   },
+  "engineStrict": true,
+  "engines": {
+    "node": "20.11.0"
+  },
   "author": "",
   "license": "ISC",
   "description": ""
