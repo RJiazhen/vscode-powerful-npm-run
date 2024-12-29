@@ -12,7 +12,24 @@ interface GetNvmVersion {
   (targetDir: string): Promise<string>;
 }
 
-export const getNvmVersion: GetNvmVersion = async (targetDir) => {
+const getNodeVersionFromNvmrc = async (nvmrcPath: string) => {
+  const nvmrcVersion = (await workspace.openTextDocument(nvmrcPath))
+    .getText()
+    .trim()
+    .replace(/^v/, "");
+
+  return nvmrcVersion;
+};
+
+const getDefaultNodeVersion = async () => {
+  const defaultNodeVersion = workspace
+    .getConfiguration("powerful-npm-run")
+    .get<string>("defaultNodeVersion");
+
+  return defaultNodeVersion || "";
+};
+
+export const getNodeVersion: GetNvmVersion = async (targetDir) => {
   const targetDirStr =
     typeof targetDir === "string" ? targetDir : targetDir.fsPath;
 
@@ -20,18 +37,9 @@ export const getNvmVersion: GetNvmVersion = async (targetDir) => {
 
   const isNvmrcExist = existsSync(nvmrcPath);
 
-  if (!isNvmrcExist) {
-    const defaultNodeVersion = workspace
-      .getConfiguration("powerful-npm-run")
-      .get<string>("defaultNodeVersion");
-
-    return defaultNodeVersion || "";
+  if (isNvmrcExist) {
+    return getNodeVersionFromNvmrc(nvmrcPath);
   }
 
-  const nvmrcVersion = (await workspace.openTextDocument(nvmrcPath))
-    .getText()
-    .trim()
-    .replace(/^v/, "");
-
-  return nvmrcVersion;
+  return getDefaultNodeVersion();
 };
