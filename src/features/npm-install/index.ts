@@ -1,7 +1,7 @@
 import { commands, ExtensionContext, window, workspace } from "vscode";
 import { npmInstallQuickPick } from "./quick-pick";
 import { watchFiles } from "./watch-files";
-import { getNodeVersion } from "../../utils/get-nvm-version";
+import { getNodeVersion } from "../../utils/get-node-version";
 import { sendTextToTerminal } from "../../utils/send-text-to-terminal";
 import { sendTextInSingleLine } from "../../utils/send-text-in-single-line";
 
