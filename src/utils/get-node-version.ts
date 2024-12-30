@@ -127,7 +127,7 @@ const getNodeVersionFromPackageJsonEngines = async (
 /**
  * @description: get default node version from setting
  */
-const getDefaultNodeVersion = async () => {
+const getDefaultNodeVersion = () => {
   const defaultNodeVersion = workspace
     .getConfiguration("powerful-npm-run")
     .get<string>("defaultNodeVersion");
@@ -151,10 +151,9 @@ export const getNodeVersion: GetNvmVersion = async (targetDir) => {
   }
 
   const packageJsonPath = `${targetDirStr}\package.json`;
-  console.log("engines", getNodeVersionFromPackageJsonEngines(packageJsonPath));
 
   return (
-    getNodeVersionFromPackageJsonEngines(packageJsonPath) ||
+    (await getNodeVersionFromPackageJsonEngines(packageJsonPath)) ||
     getDefaultNodeVersion()
   );
 };
