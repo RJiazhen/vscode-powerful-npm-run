@@ -9,6 +9,8 @@ export enum ConfigurationSection {
   defaultNodeVersion = "defaultNodeVersion",
   /** command in single line when run in active terminal */
   singleLineCommand = "singleLineCommand",
+  /** skip nvm when volta detected */
+  skipNvmWhenVoltaDetected = "skipNvmWhenVoltaDetected",
 }
 
 export enum SingleLineCommandOption {
