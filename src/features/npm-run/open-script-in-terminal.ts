@@ -1,11 +1,9 @@
 import { Terminal } from "vscode";
-import { ConfigurationSection } from "../../constants/enums/configuration";
-import { checkIsNvmrcExit } from "../../utils/check-is-nvmrc-exit";
-import { getPowerfulNpmRunConfiguration } from "../../utils/get-powerful-npm-run-configuration";
-import { getVersionInNvmrc } from "../../utils/get-version-in-nvmrc";
-import { sendTextInSingleLine } from "../../utils/send-text-in-single-line";
 import { getNodeVersion } from "../../utils/get-node-version";
-
+import { sendTextInSingleLine } from "../../utils/send-text-in-single-line";
+import { getPowerfulNpmRunConfiguration } from "../../utils/get-powerful-npm-run-configuration";
+import { ConfigurationSection } from "../../constants/enums/configuration";
+import { hasVoltaConfig } from "../../utils/has-volta-config";
 /**
  * Opens a terminal and runs the selected npm script in it.
  * @param selectedNpmScript The npm script to run.
@@ -20,13 +18,28 @@ export const openScriptInTerminal = async (
     "",
   );
 
-  const nodeVersion = await getNodeVersion(workPath);
+  const nvmUseTerminalText = await (async () => {
+    const skipNvmWhenVoltaDetected = getPowerfulNpmRunConfiguration(
+      ConfigurationSection.skipNvmWhenVoltaDetected,
+    );
+
+    if (skipNvmWhenVoltaDetected) {
+      const isVoltaConfig = await hasVoltaConfig(workPath);
+      if (isVoltaConfig) {
+        return "";
+      }
+    }
+
+    const nodeVersion = await getNodeVersion(workPath);
+
+    return `nvm use ${nodeVersion}`;
+  })();
 
   const terminalTextList = [
     `cd ${workPath}`,
-    nodeVersion ? `nvm use ${nodeVersion}` : "",
+    nvmUseTerminalText,
     `npm run ${selectedNpmScript.name}`,
-  ];
+  ].filter(Boolean);
 
   sendTextInSingleLine({
     textList: terminalTextList,
