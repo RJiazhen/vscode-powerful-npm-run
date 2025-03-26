@@ -16,9 +16,21 @@ jobs:
           version: 9
       - name: Install dependencies
         run: pnpm install
+      - name: Update version from tag
+        run: |
+          TAG=${GITHUB_REF#refs/tags/}
+          if [[ $TAG == *"-pre-release" ]]; then
+            VERSION=${TAG%-pre-release}
+            echo "Updating version to $VERSION (pre-release)"
+            npm pkg set version="$VERSION"
+          else
+            echo "Using tag version $TAG"
+            npm pkg set version="$TAG"
+          fi
       - name: Publish to Visual Studio Marketplace
         uses: HaaLeo/publish-vscode-extension@v1
         with:
           pat: ${{ secrets.VS_MARKETPLACE_TOKEN }}
           registryUrl: https://marketplace.visualstudio.com
           dependencies: false
+          preRelease: ${{ contains(github.ref, '-pre-release') }}
