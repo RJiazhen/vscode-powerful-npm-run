@@ -7,6 +7,7 @@ import {
 interface GetPowerfulNpmRunConfiguration {
   (section: ConfigurationSection.defaultNodeVersion): string;
   (section: ConfigurationSection.singleLineCommand): SingleLineCommandOption;
+  (section: ConfigurationSection.skipNvmWhenVoltaDetected): boolean;
 }
 
 // @ts-ignore

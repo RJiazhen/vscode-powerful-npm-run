@@ -56,6 +56,11 @@
           ],
           "default": "only in new terminal",
           "description": "Whether to run the command in a single line when run in active terminal."
+        },
+        "powerful-npm-run.skipNvmWhenVoltaDetected": {
+          "type": "boolean",
+          "default": true,
+          "description": "Skip using nvm when volta configuration is detected in package.json"
         }
       }
     }

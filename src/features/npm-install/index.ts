@@ -2,8 +2,10 @@ import { commands, ExtensionContext, window, workspace } from "vscode";
 import { npmInstallQuickPick } from "./quick-pick";
 import { watchFiles } from "./watch-files";
 import { getNodeVersion } from "../../utils/get-node-version";
-import { sendTextToTerminal } from "../../utils/send-text-to-terminal";
 import { sendTextInSingleLine } from "../../utils/send-text-in-single-line";
+import { getPowerfulNpmRunConfiguration } from "../../utils/get-powerful-npm-run-configuration";
+import { ConfigurationSection } from "../../constants/enums/configuration";
+import { hasVoltaConfig } from "../../utils/has-volta-config";
 
 const quickPickOnDidChangeSelection = async (
   quickPickItemList: readonly NpmInstallQuickPickItem[],
@@ -25,13 +27,30 @@ const quickPickOnDidChangeSelection = async (
       ? selectedItem.file.fsPath.slice(0, lastBackslashIndex + 1)
       : "";
 
-  const nvmVersion = await getNodeVersion(workDir);
+  const nvmUseCommand = await (async () => {
+    const skipNvmWhenVoltaDetected = getPowerfulNpmRunConfiguration(
+      ConfigurationSection.skipNvmWhenVoltaDetected,
+    );
+
+    console.log(skipNvmWhenVoltaDetected);
+
+    if (skipNvmWhenVoltaDetected) {
+      const isVoltaConfig = await hasVoltaConfig(workDir);
+      if (isVoltaConfig) {
+        return "";
+      }
+    }
+
+    const nodeVersion = await getNodeVersion(workDir);
+
+    return `nvm use ${nodeVersion}`;
+  })();
 
   const commandList = [
     `cd "${workDir}"`,
-    `nvm use ${nvmVersion}`,
+    nvmUseCommand,
     selectedItem.command || "",
-  ];
+  ].filter(Boolean);
 
   sendTextInSingleLine({
     textList: commandList,
