@@ -1,0 +1,16 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"sub-1 package.json test script\" && exit 1",
+    "test2": "echo \"sub-1 package.json test2 script\""
+  },
+  "engines": {
+    "tips": "the node version is invalid, because there is a .nvmrc file in the same directory",
+    "node": "18.20.4"
+  },
+  "volta": {
+    "node": "18.20.4"
+  }
+}
