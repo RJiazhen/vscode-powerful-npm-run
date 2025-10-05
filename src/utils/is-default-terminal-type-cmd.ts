@@ -1,5 +1,8 @@
 import { workspace } from "vscode";
 
+/**
+ * check if the default terminal is command prompt
+ */
 export const isDefaultTerminalTypeCmd = () => {
   const integratedDefaultProfile = (() => {
     switch (process.platform) {

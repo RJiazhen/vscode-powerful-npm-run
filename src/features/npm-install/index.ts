@@ -6,6 +6,7 @@ import { sendTextInSingleLine } from "../../utils/send-text-in-single-line";
 import { getPowerfulNpmRunConfiguration } from "../../utils/get-powerful-npm-run-configuration";
 import { ConfigurationSection } from "../../constants/enums/configuration";
 import { hasVoltaConfig } from "../../utils/has-volta-config";
+import { convertPathForTerminal } from "../../utils/convert-path-for-terminal";
 
 const quickPickOnDidChangeSelection = async (
   quickPickItemList: readonly NpmInstallQuickPickItem[],
@@ -46,8 +47,10 @@ const quickPickOnDidChangeSelection = async (
     return `nvm use ${nodeVersion}`;
   })();
 
+  const convertedWorkDir = convertPathForTerminal(workDir);
+
   const commandList = [
-    `cd "${workDir}"`,
+    `cd "${convertedWorkDir}"`,
     nvmUseCommand,
     selectedItem.command || "",
   ].filter(Boolean);

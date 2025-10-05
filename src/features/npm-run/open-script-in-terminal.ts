@@ -4,6 +4,7 @@ import { sendTextInSingleLine } from "../../utils/send-text-in-single-line";
 import { getPowerfulNpmRunConfiguration } from "../../utils/get-powerful-npm-run-configuration";
 import { ConfigurationSection } from "../../constants/enums/configuration";
 import { hasVoltaConfig } from "../../utils/has-volta-config";
+import { convertPathForTerminal } from "../../utils/convert-path-for-terminal";
 /**
  * Opens a terminal and runs the selected npm script in it.
  * @param selectedNpmScript The npm script to run.
@@ -35,8 +36,11 @@ export const openScriptInTerminal = async (
     return `nvm use ${nodeVersion}`;
   })();
 
+  /** converted work path for terminal */
+  const convertedWorkPath = convertPathForTerminal(workPath);
+
   const terminalTextList = [
-    `cd ${workPath}`,
+    `cd ${convertedWorkPath}`,
     nvmUseTerminalText,
     `npm run ${selectedNpmScript.name}`,
   ].filter(Boolean);

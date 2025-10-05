@@ -38,22 +38,44 @@ export const sendTextInSingleLine = async ({
   separator,
   terminal,
 }: Params) => {
-  const separatorMap = {
-    [SingleLineCommandOption.onlyInNewTerminal]: isDefaultTerminalTypeCmd()
-      ? "&&"
-      : ";",
-    [SingleLineCommandOption.off]: "\n",
-    [SingleLineCommandOption.alwaysUseAnd]: "&&",
-    [SingleLineCommandOption.alwaysUseSemicolon]: ";",
-  };
+  /**
+   * the final used separator
+   */
+  const finalUsedSeparator = (() => {
+    // if separator is specified, use it
+    if (separator) {
+      return separator;
+    }
+
+    /** the configuration in "Single Line Command" */
+    const singleLineCommand = getPowerfulNpmRunConfiguration(
+      ConfigurationSection.singleLineCommand,
+    );
+
+    if (singleLineCommand === SingleLineCommandOption.off) {
+      return "\n";
+    }
+
+    if (singleLineCommand === SingleLineCommandOption.alwaysUseAnd) {
+      return "&&";
+    }
+
+    if (singleLineCommand === SingleLineCommandOption.alwaysUseSemicolon) {
+      return ";";
+    }
+
+    /**
+     * is the default terminal command prompt
+     */
+    const isDefaultTerminalCmd = isDefaultTerminalTypeCmd();
+
+    // if the default terminal is command prompt, use "&&" as separator, otherwise use ";"
+    return isDefaultTerminalCmd ? "&&" : ";";
+  })();
 
   const normalizedParams = {
     textList: typeof textList === "string" ? [textList] : textList,
-    separator:
-      separator ??
-      separatorMap[
-        getPowerfulNpmRunConfiguration(ConfigurationSection.singleLineCommand)
-      ],
+    separator: finalUsedSeparator,
     terminal: terminal ?? window.createTerminal(),
   };
 

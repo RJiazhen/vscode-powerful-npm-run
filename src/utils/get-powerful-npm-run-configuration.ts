@@ -10,8 +10,14 @@ interface GetPowerfulNpmRunConfiguration {
   (section: ConfigurationSection.skipNvmWhenVoltaDetected): boolean;
 }
 
+/**
+ * get powerful npm run configuration
+ */
 // @ts-ignore
 export const getPowerfulNpmRunConfiguration: GetPowerfulNpmRunConfiguration = (
+  /**
+   * section of powerful npm run configuration
+   */
   section,
 ) => {
   return workspace.getConfiguration("powerful-npm-run").get(section);

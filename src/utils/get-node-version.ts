@@ -42,43 +42,44 @@ const getNodeVersionFromPackageJsonEngines = async (
   const packageJsonContent = packageJson.getText();
   try {
     const packageJsonObj = JSON.parse(packageJsonContent);
-    const { node } = packageJsonObj?.engines;
+    const { node } = packageJsonObj?.engines || {};
     const nodeVersionDescriptionList: string[] = node?.split(" ");
     /** node version list get from engines string */
-    const nodeVersionList = nodeVersionDescriptionList
-      ?.map((str) => {
-        if (str.startsWith("^")) {
-          return {
-            version: str.replace("^", "").split(".")[0],
-            startWith: "^",
-          };
-        }
+    const nodeVersionList =
+      (nodeVersionDescriptionList
+        ?.map((str) => {
+          if (str.startsWith("^")) {
+            return {
+              version: str.replace("^", "").split(".")[0],
+              startWith: "^",
+            };
+          }
 
-        if (str.startsWith("~")) {
-          const versionList = str.replace("~", "").split(".");
-          return {
-            version: [versionList[0], versionList[1]].join("."),
-            startWith: "~",
-          };
-        }
+          if (str.startsWith("~")) {
+            const versionList = str.replace("~", "").split(".");
+            return {
+              version: [versionList[0], versionList[1]].join("."),
+              startWith: "~",
+            };
+          }
 
-        if (str.startsWith(">=") || str.startsWith("<=")) {
-          return {
-            version: str.replace(">=", "").replace("<=", "").split(".")[0],
-            startWith: str.startsWith(">=") ? ">=" : "<=",
-          };
-        }
-        // TODO handle for '>', '<'
-        if (str.startsWith(">") || str.startsWith("<")) {
-          return undefined;
-        }
+          if (str.startsWith(">=") || str.startsWith("<=")) {
+            return {
+              version: str.replace(">=", "").replace("<=", "").split(".")[0],
+              startWith: str.startsWith(">=") ? ">=" : "<=",
+            };
+          }
+          // TODO handle for '>', '<'
+          if (str.startsWith(">") || str.startsWith("<")) {
+            return undefined;
+          }
 
-        return {
-          version: str,
-          startWith: "",
-        };
-      })
-      .filter(Boolean) as { version: string; startWith: string }[];
+          return {
+            version: str,
+            startWith: "",
+          };
+        })
+        ?.filter(Boolean) as { version: string; startWith: string }[]) || [];
 
     // if node version start with '', '^' or '~', return the version
     const highPriorityNodeVersionFlag = ["", "^", "~"];
